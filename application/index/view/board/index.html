@@ -1,0 +1,275 @@
+{extend name="public:base" /}
+
+{block name="title"}留言列表{/block}
+{block name="css"}
+
+
+<link rel="stylesheet" href="__STATIC__/layui/css/layui.css"/>
+<link rel="stylesheet" href="__STATIC__/index/css/main.css"/>
+<link rel="stylesheet" href="__STATIC__/index/css/header.css"/>
+<link rel="stylesheet" href="__STATIC__/index/css/resource_lst.css"/>
+
+<style type="text/css">
+    body{
+        background-color: #f0f0f0;
+    }
+
+    .wrap_box_up img {
+        border-radius: 8px;
+        display: inline-block;
+    }
+    .wrap_box_up p{
+        background-color: #fff;
+    }
+
+    .wrap_box_up span {
+        position: relative;
+        top: 40px;
+        font-size: 18px;
+        color: #8e999d;
+        letter-spacing: 2px;
+        transition:all 1s linear 0s;
+    }
+
+    .wrap_box_up span:hover, .wrap_box_up p:hover{
+        color:red;
+        text-shadow: 0px 0px 1px #fff,
+            2px -3px 2px #1EB,
+            4px -6px 3px #01DEFD,
+            6px -9px 4px #0BF,
+            8px -12px 5px #08F;
+    }
+
+    .resource-list li {
+        margin:14px;
+        width: 270px;
+        height: 208px;
+        box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .resource-list .first {
+        height: 396px;
+        -webkit-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+        color: #fff;
+    }
+
+    .resource-list .first img {
+        width: 100%;
+        display: inline-block;
+    }
+
+    .resource-list li .intro {
+        /* background:#bdbbba; */
+        background:#fff;
+        top: 122px;
+        padding:0 18px;
+    }
+
+    .resource-list li .intro h3 {
+        color:#f40;
+        font-weight: 700;
+        font-size:15px;
+        line-height: 22px;
+    }
+
+    .resource-list li .intro h3 i {
+        padding:0px 4px;
+        /*font-size: 14px;*/
+        height: 18px;
+        line-height: 18px;
+    }
+
+    .resource-list li a:hover .intro {
+        top: 48px;
+    }
+    /* .resource-list li a .intro:hover {
+        top: 48px;
+    } */
+
+
+    /* .resource-list li .intro p {
+          font-size: 14px;
+    }*/
+
+    .resource-list li .bottom {
+        height: 48px;
+        font-size: 12px;
+        line-height: 46px;
+        padding:0 16px;
+    }
+    
+    #tip h1,h2{margin:8px auto;}
+    #tip h1{color:#FF5722;}
+    #tip h2{color:#FFB800;}
+    #tip h3{color:#009688;text-align:left;}
+    #tip h4{color:#01AAED;}
+    #tip p{color:#009688; text-align:left;text-indent:2em;}
+</style>
+
+    
+
+{/block}
+
+{block name="body"}
+
+    <div class="layui-row resource-class" id="category-list">
+        <div class="layui-col-md12 resource-border">
+            <ul class="category-third">
+                <li class="resource-type">类型：</li>
+                <!-- <li class="resource-class-li-bg"><a href="#">全部</a></li>
+                <li><a href="#" title="留言板系统">留言板系统</a></li>
+                <li><a href="#" title="用户管理系统">用户管理系统</a></li>
+                <li><a href="#" title="商城系统">商城系统</a></li>
+                <li><a href="#" title="论坛系统">论坛系统</a></li>
+                <li><a href="#" title="博客系统">博客系统</a></li>
+                <li><a href="#" title="学生管理系统">学生管理系统</a></li>
+                <li><a href="#" title="新闻系统">新闻系统</a></li>
+                <li><a href="#" title="文章系统">文章系统</a></li>
+                <li><a href="#" title="登录注册">登录注册</a></li>
+                <li><a href="#" title="其他类型">其他类型</a></li> -->
+                <!--<li><a href="#" title="验证码">验证码</a></li>-->
+
+                <li {//当URL中cate_id参数为空的时候,默认就是首页高亮显示}
+                {empty name="$Request.param.cate_id"}
+                class="resource-class-li-bg"
+                {/empty}
+                    ><a href="{:url('index/board/index',['board_id'=> $Request.param.board_id])}">全部</a></li>
+
+                {volist name="cate_list" id="cate"}
+                <li
+                {//用请求对象从URL中获取当前的board_id参数}
+                {eq name="$cate.id" value="$Request.param.cate_id"}  
+                class="resource-class-li-bg"
+                {/eq}><a href="{:url('index/board/index',['board_id'=> $Request.param.board_id,'cate_id'=>$cate.id])}" title="{$cate.name}">{$cate.name}</a></li>
+                {/volist}
+
+
+            </ul>
+        </div>
+    
+        <div class="layui-col-md12 resource-border" style="display:none;">
+            <ul class="category-third">
+                <li class="resource-type">标签：</li>
+                <li class="resource-class-li-bg"><a href="#">全部</a></li>
+                <li><a href="#" title="PHP+MySQLi">PHP+MySQLi</a></li>
+                <li><a href="#" title="Bootstrap">Bootstrap</a></li>
+                <li><a href="#" title="PDO">PDO</a></li>
+                <li><a href="#" title="留言板">留言板</a></li>
+                <li><a href="#" title="文件上传">文件上传</a></li>
+                <li><a href="#" title="文件与目录操作">文件与目录操作</a></li>
+                <li><a href="#" title="验证码">验证码</a></li>
+                <li><a href="#" title="GD库函数">GD库函数</a></li>
+                
+                <li><a href="#" title="图片教程">后台管理系统</a></li>
+                <li><a href="#" title="视频教程">前台</a></li>
+                <li><a href="#" title="视频教程">前台+后台管理系统</a></li>
+                <li><a href="#" title="许愿墙">许愿墙</a></li>
+                <li><a href="#" title="分页类">分页类</a></li>
+            </ul>
+        </div>
+    </div>
+
+<!--<div class="wrap_box_up">
+        <a href="#">
+            <p>If you correct your mind, the rest of your life will fall into place. - Lao Tzu</p>
+        </a>
+    </div>-->
+
+
+    <div class="wrap_box_content">
+        <div class="content_title dropbtn" style="background: none;font-size: 30px;">
+            <i class="layui-icon layui-icon-prev"></i> 云想<i class="layui-icon layui-icon-next"></i>
+        </div>
+        <div class="content_content clearfix">
+            <ul class="resource-list">
+                {volist name="resource_lst" id="resource"}
+                
+                <li>
+                    <a href="{$resource.url}" target="_blank">
+                        <img alt="{$resource.title}" height="168" width="100%" src="__UPLOADS__/{$resource.img}" style="display: inline-block;">
+                        <div class="intro">
+                            <h3><i>{$resource.id|getResourceTag}</i>{$resource.title}</h3>
+                            <p>{$resource.description}</p>
+                        </div>
+                        <div class="bottom">
+                            <span class="l"><span class="layui-badge {$resource.id|randResTimeColor}">{$resource.create_time|date="Y-m-d"}</span></span>
+                            <span class="r"> {$resource.down_count}人使用&nbsp;&nbsp; 作业币：<span class="layui-badge">{$resource.money}</span></span>
+                        </div>
+                    </a> 
+                </li>
+                {/volist}
+                
+            </ul>
+        </div>
+    </div>
+
+   
+
+    <div class="wrap_box_up">
+        <a href="#">
+            <p>If you correct your mind, the rest of your life will fall into place. - Lao Tzu</p>
+        </a>
+    </div>
+
+{/block}
+
+{block name="js"}
+<script>
+        $('#category-list').on('click', 'a', function () {
+            $('.resource-class-li-bg a').each(function (k, v) {
+                console.log(k);
+                console.log(v);
+            });
+        });
+
+    </script>
+    <script>
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                var content = '';
+                content += '<div id="tip">';
+                content += "<h1>qimozuoye.com</h1>";
+                content += "<h2>talk is cheap show me the code</h2>";
+                content += "<h3>登录账户一般有如下三个：</h3>";
+                content += "<p>用户名：admin &nbsp;密码：123456</p>";
+                content += "<p>用户名：admin &nbsp;密码：123</p>";
+                content += "<p>用户名：qimozuoye &nbsp;密码：123456</p>";
+                content += "<h4>本站资源部分来源网络，仅供学习，不可商用，如果侵犯了您的权益，请联系站长QQ:319460833</h4>";
+                content += "</div>";
+                //配置一个透明的询问框
+                // layer.msg(content, {
+                //     time: 1500, //20s后自动关闭
+                //     shade: 0.4,
+                //     btn: ['明白了', '知道了', '哦']
+                //     , btnAlign: 'c'
+                // });
+
+                //示范一个公告层
+//                layer.open({
+//                    type: 1
+//                    , title: false //不显示标题栏
+//                    , closeBtn: false
+//                    , area: '300px;'
+//                    , shade: 0.8
+//                    , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+//                    , btn: ['明白了', '知道了', '哦']
+//                    , btnAlign: 'c'
+//                    , moveType: 1 //拖拽模式，0或者1
+//                    , content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">你知道吗？亲！<br>layer ≠ layui<br><br>layer只是作为Layui的一个弹层模块，由于其用户基数较大，所以常常会有人以为layui是layerui<br><br>layer虽然已被 Layui 收编为内置的弹层模块，但仍然会作为一个独立组件全力维护、升级。<br><br>我们此后的征途是星辰大海 ^_^</div>'
+//                    , success: function (layero) {
+//                        var btn = layero.find('.layui-layer-btn');
+//                        btn.find('.layui-layer-btn0').attr({
+//                            href: 'http://www.layui.com/'
+//                            , target: '_blank'
+//                        });
+//                    }
+//                });
+            });
+
+        </script>
+{/block}
+
+
+    

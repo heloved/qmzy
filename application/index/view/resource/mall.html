@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=7">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title>留言列表</title>
+
+        <link rel="stylesheet" href="__STATIC__/layui/css/layui.css"/>
+        <link rel="stylesheet" href="__STATIC__/index/css/main.css"/>
+        <link rel="stylesheet" href="__STATIC__/index/css/header.css"/>
+        <link rel="stylesheet" href="__STATIC__/index/css/resource_lst.css"/>
+        <script src="__STATIC__/layui/layui.js"></script>
+        <script src="__STATIC__/index/js/jquery-1.11.1.min.js"></script>
+        <style type="text/css">
+
+            .wrap_box_up img {
+                border-radius: 8px;
+                display: inline-block;
+            }
+            .wrap_box_up p{
+                background-color: #fff;
+            }
+
+            .wrap_box_up span {
+                position: relative;
+                top: 40px;
+                font-size: 18px;
+                color: #8e999d;
+                letter-spacing: 2px;
+                transition:all 1s linear 0s;
+            }
+
+            .wrap_box_up span:hover, .wrap_box_up p:hover{
+                color:red;
+                text-shadow: 0px 0px 1px #fff,
+                    2px -3px 2px #1EB,
+                    4px -6px 3px #01DEFD,
+                    6px -9px 4px #0BF,
+                    8px -12px 5px #08F;
+            }
+
+            .resource-list li {
+                margin:14px;
+                width: 270px;
+                height: 208px;
+                box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+            }
+
+            .resource-list .first {
+                height: 396px;
+                -webkit-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+                -moz-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+                box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+                color: #fff;
+            }
+
+            .resource-list .first img {
+                width: 100%;
+                display: inline-block;
+            }
+
+            .resource-list li .intro {
+                /* background:#bdbbba; */
+                background:#fff;
+                top: 122px;
+                padding:0 18px;
+            }
+
+            .resource-list li .intro h3 {
+                color:#f40;
+                font-weight: 700;
+                font-size:15px;
+                line-height: 22px;
+            }
+
+            .resource-list li .intro h3 i {
+                padding:0px 4px;
+                /*font-size: 14px;*/
+                height: 18px;
+                line-height: 18px;
+            }
+
+            .resource-list li a:hover .intro {
+                top: 48px;
+            }
+            /* .resource-list li a .intro:hover {
+                top: 48px;
+            } */
+
+
+            /* .resource-list li .intro p {
+                  font-size: 14px;
+            }*/
+
+            .resource-list li .bottom {
+                height: 48px;
+                font-size: 12px;
+                line-height: 46px;
+                padding:0 16px;
+            }
+            
+            #tip h1,h2{margin:8px auto;}
+            #tip h1{color:#FF5722;}
+            #tip h2{color:#FFB800;}
+            #tip h3{color:#009688;text-align:left;}
+            #tip h4{color:#01AAED;}
+            #tip p{color:#009688; text-align:left;text-indent:2em;}
+        </style>
+        <script>
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                var content = '';
+                content += '<div id="tip">';
+                content += "<h1>qimozuoye.com</h1>";
+                content += "<h2>talk is cheap show me the code</h2>";
+                content += "<h3>登录账户一般有如下三个：</h3>";
+                content += "<p>用户名：admin &nbsp;密码：123456</p>";
+                content += "<p>用户名：admin &nbsp;密码：123</p>";
+                content += "<p>用户名：qimozuoye &nbsp;密码：123456</p>";
+                content += "<h4>本站资源部分来源网络，仅供学习，不可商用，如果侵犯了您的权益，请联系站长QQ:319460833</h4>";
+                content += "</div>";
+                //配置一个透明的询问框
+                layer.msg(content, {
+                    time: 1500, //20s后自动关闭
+                    shade: 0.4,
+                    btn: ['明白了', '知道了', '哦']
+                    , btnAlign: 'c'
+                });
+
+                //示范一个公告层
+//                layer.open({
+//                    type: 1
+//                    , title: false //不显示标题栏
+//                    , closeBtn: false
+//                    , area: '300px;'
+//                    , shade: 0.8
+//                    , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+//                    , btn: ['明白了', '知道了', '哦']
+//                    , btnAlign: 'c'
+//                    , moveType: 1 //拖拽模式，0或者1
+//                    , content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">你知道吗？亲！<br>layer ≠ layui<br><br>layer只是作为Layui的一个弹层模块，由于其用户基数较大，所以常常会有人以为layui是layerui<br><br>layer虽然已被 Layui 收编为内置的弹层模块，但仍然会作为一个独立组件全力维护、升级。<br><br>我们此后的征途是星辰大海 ^_^</div>'
+//                    , success: function (layero) {
+//                        var btn = layero.find('.layui-layer-btn');
+//                        btn.find('.layui-layer-btn0').attr({
+//                            href: 'http://www.layui.com/'
+//                            , target: '_blank'
+//                        });
+//                    }
+//                });
+            });
+
+        </script>
+    </head>
+
+    <body style="background-color: #f0f0f0;">
+
+        <div class="heloved-header layui-header">
+            <!-- logo start -->
+            <div class="heloved-logo">
+                <img src="__STATIC__/logo.png" alt="期末作业网" />
+                <!--        <div class="heloved-logo-left">
+                        </div>
+                        <div class="heloved-logo-right">
+                            <img src="__STATIC__/index/images/tel.jpg" alt="服务热线">24小时在线 <span class="heloved-tel">123456788</span>
+                        </div>-->
+            </div>
+            <!-- logo end -->
+
+            <!-- nav start -->
+            <ul class="header-nav" id="header-nav">
+                <li class="layui-nav-item"><a href="{:url('index/index/index')}">首页</a></li>
+                <li class="layui-nav-item"><a href="{:url('index/resource/index')}">综合资源</a></li>
+                <li class="layui-nav-item"><a href="{:url('index/resource/message')}">留言板系统</a></li>
+                <li class="layui-nav-item header-nav-this"><a href="{:url('index/resource/mall')}">商城系统</a></li>
+                <li class="layui-nav-item"><a href="{:url('index/resource/news')}">新闻系统</a></li>
+                <li class="layui-nav-item"><a href="{:url('index/resource/user')}">用户管理系统</a></li>
+                <li class="layui-nav-item"><a href="{:url('index/resource/web')}">WEB前端</a></li>
+                <!-- <li class="layui-nav-item"><a href="#">课程中心</a></li> -->
+                <!-- <li class="layui-nav-item"><a href="#">加入我们</a></li>-->
+            </ul>
+            <!-- nav end -->
+
+            <!--login and register start -->
+        <!--  <ul class="heloved-user">
+                <li><span class="login" id="btnLogin">登录</span></li>
+                <li><span class="register">注册</span></li>
+            </ul>-->
+            <!--login and register end -->
+
+            <!--user-information-->
+            <div class="heloved-user-info">
+                <span class="dropbtn">云想衣裳花想容</span>
+                <div class="dropdown" style="display: none;">
+                    <div class="dropdown-content">
+                        <a href="#">菜单1</a>
+                        <a href="#">菜单2</a>
+                        <a href="#">菜单3</a>
+                    </div>
+                </div>
+            </div>
+            <!--user-information-->
+        </div>
+
+        <!--头部 end-->
+
+
+        <div class="layui-row resource-class" id="category-list" style="display: none;">
+            <div class="layui-col-md12 resource-border">
+                <ul class="category-first">
+                    <li class="resource-type">难度：</li>
+                    <li class="resource-class-li-bg"><a href="#">全部</a></li>
+                    <li><a href="#" title="初级">初级</a></li>
+                    <li><a href="#" title="中级">中级</a></li>
+                    <li><a href="#" title="高级">高级</a></li>
+
+                </ul>
+            </div>
+            <div class="layui-col-md12 resource-border">
+                <ul class="category-second">
+                    <li class="resource-type">语言：</li>
+                    <li class="resource-class-li-bg"><a href="javascript:;">全部</a></li>
+                    <li><a href="#">PHP</a></li>
+                    <li><a href="#" title="ThinkPHP3">ThinkPHP3</a></li>
+                    <li><a href="#" title="ThinkPHP5">ThinkPHP5</a></li>
+                    <li><a href="#">MySQL</a></li>
+                    <li><a href="#">HTML/HTML5</a></li>
+                    <li><a href="#">CSS/CSS3</a></li>
+                    <li><a href="#">JavaScript</a></li>
+                    <li><a href="#">jQuery</a></li>
+                </ul>
+            </div>
+            <div class="layui-col-md12 resource-border">
+                <ul class="category-third">
+                    <li class="resource-type">类型（功能）：</li>
+                    <li class="resource-class-li-bg"><a href="#">全部</a></li>
+                    <li><a href="#" title="商城">商城</a></li>
+                    <li><a href="#" title="论坛">论坛</a></li>
+                    <li><a href="#" title="博客">博客</a></li>
+                    <li><a href="#" title="学生管理系统">学生管理系统</a></li>
+                    <li><a href="#" title="新闻网站">新闻网站</a></li>
+                    <li><a href="#" title="留言板">留言板</a></li>
+                    <li><a href="#" title="登录注册">登录注册</a></li>
+                    <li><a href="#" title="小案例">小案例</a></li>
+                    <!--<li><a href="#" title="验证码">验证码</a></li>-->
+                </ul>
+            </div>
+
+            <div class="layui-col-md12 resource-border">
+                <ul class="category-third">
+                    <li class="resource-type">标签：</li>
+                    <li class="resource-class-li-bg"><a href="#">全部</a></li>
+                    <li><a href="#" title="PHP+MySQLi">PHP+MySQLi</a></li>
+                    <li><a href="#" title="Bootstrap">Bootstrap</a></li>
+                    <li><a href="#" title="PDO">PDO</a></li>
+                    <li><a href="#" title="留言板">留言板</a></li>
+                    <li><a href="#" title="文件上传">文件上传</a></li>
+                    <li><a href="#" title="文件与目录操作">文件与目录操作</a></li>
+                    <li><a href="#" title="验证码">验证码</a></li>
+                    <li><a href="#" title="GD库函数">GD库函数</a></li>
+                    
+                    <li><a href="#" title="图片教程">后台管理系统</a></li>
+                    <li><a href="#" title="视频教程">前台</a></li>
+                    <li><a href="#" title="视频教程">前台+后台管理系统</a></li>
+                    <li><a href="#" title="许愿墙">许愿墙</a></li>
+                    <li><a href="#" title="分页类">分页类</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!--        <div class="wrap_box_up">
+                    <a href="#">
+                        <p>If you correct your mind, the rest of your life will fall into place. - Lao Tzu</p>
+                    </a>
+                </div>-->
+
+
+        <div class="wrap_box_content">
+            <div class="content_title dropbtn" style="background: none;font-size: 30px;">
+                <i class="layui-icon layui-icon-prev"></i> 云想<i class="layui-icon layui-icon-next"></i>
+            </div>
+            <div class="content_content clearfix">
+                <ul class="resource-list">
+                   
+                    <li>
+                        <a href="http://47.106.86.207/190106_message/index.php" target="_blank">
+                            <img alt="商城系统" height="168" width="100%" src="http://47.106.86.207/190106_message/1.png" style="display: inline-block;">
+                            <div class="intro">
+                                <h3><i>PHP+MySQLi</i>留言板</h3>
+                                <p>登录，留言管理（增删改查）
+                                <br/>登录，留言管理（增删改查）
+                                <br/>登录，留言管理（增删改查）
+                                <br/>登录，留言管理（增删改查）</p>
+                            </div>
+                            <div class="bottom">
+                                <span class="l"><span class="layui-badge layui-bg-green">2019-01-06</span></span>
+                                <span class="r"> 1人使用&nbsp;&nbsp; 作业币：<span class="layui-badge">30</span></span>
+                            </div>
+                        </a> 
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+
+        <div class="wrap_box_content">
+            <div class="content_title dropbtn" style="background: none;font-size: 30px;">
+                <i class="layui-icon layui-icon-prev"></i> 云想<i class="layui-icon layui-icon-next"></i>
+            </div>
+            <div class="content_content clearfix">
+                <ul class="resource-list">
+                    <li>
+                        <a href="http://47.106.86.207/message_shuoshuo/index.php" target="_blank">
+                            <img alt="PHP+mysql+jQuery说说留言板" height="148" width="100%" src="http://47.106.86.207/message_shuoshuo/1.png" style="display: inline-block;">
+                            <div class="intro">
+                                <h3><i>留言板</i>PHP+mysql+jQuery说说留言板（无限极）</h3>
+                                <p>留言、分页、评论留言、回复留言</p>
+                            </div>
+                            <div class="bottom">
+                                <span class="l"><span class="layui-badge layui-bg-green">2018-12-27</span></span>
+                                <span class="r"> 0人使用&nbsp;&nbsp; 作业币：<span class="layui-badge">20</span></span>
+                            </div>
+                        </a>
+                    </li>
+             
+                    <li>
+                        <a href="http://47.106.86.207/message_xl/index.php/Admin" target="_blank">
+                            <img alt="留言板管理系统后台" height="124" width="100%" src="http://47.106.86.207/message_xl/1.png" style="display: inline-block;">
+                            <div class="intro">
+                                <h3><i>TP3.2.3+Bootstrap</i>留言板管理系统后台</h3>
+                                <p>登录、留言管理（增删改查）</p>
+                            </div>
+                            <div class="bottom">
+                                <span class="l"><span class="layui-badge layui-bg-green">2018-12-21</span></span>
+                                <span class="r"> 1人使用&nbsp;&nbsp; 作业币：<span class="layui-badge">45</span></span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="http://47.106.86.207/message_xl/index.php" target="_blank">
+                            <img alt="留言板管理系统前台" height="158" width="100%" src="http://47.106.86.207/message_xl/iii.png" style="display: inline-block;">
+                            <div class="intro">
+                                <h3><i>TP3.2.3+Bootstrap</i>留言板管理系统前台</h3>
+                                <p>首页留言列表、登录、注册、发布留言、搜索留言</p>
+                            </div>
+                            <div class="bottom">
+                                <span class="l"><span class="layui-badge layui-bg-green">2018-12-21</span></span>
+                                <span class="r"> 1人使用&nbsp;&nbsp; 作业币：<span class="layui-badge">45</span></span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="http://47.106.86.207/18_12_08_message/index.php" target="_blank">
+                            <img alt="title" height="124" width="100%" src="http://47.106.86.207/18_12_08_message/1.png" style="display: inline-block;">
+                            <div class="intro">
+                                <h3><i>PHP+MySQL</i>留言板（分页、验证码）</h3>
+                                <p>登录注册、验证码、留言管理（添加、分页显示、回复、删除）、回复留言列表</p>
+                            </div>
+                            <div class="bottom">
+                                <span class="l"><span class="layui-badge layui-bg-cyan">2018-12-08</span></span>
+                                <span class="r"> 1人使用&nbsp;&nbsp; 作业币：<span class="layui-badge">60</span></span>
+                            </div>   
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        
+
+
+        <div class="wrap_box_content">
+            <div class="content_title dropbtn" style="background: none;font-size: 30px;">
+                <i class="layui-icon layui-icon-prev"></i> 云想<i class="layui-icon layui-icon-next"></i>
+            </div>
+            <div class="content_content clearfix">
+                <ul class="resource-list">
+                   
+                    <li>
+                        <a href="http://47.106.86.207/18_12_17_guestbook/message.php" target="_blank">
+                            <img alt="简单留言板系统" height="168" width="100%" src="http://47.106.86.207/18_12_17_guestbook/1.png" style="display: inline-block;">
+                            <div class="intro">
+                                <h3><i>MySQLi留言板</i>简单留言板系统</h3>
+                                <p>添加留言、编辑留言、留言列表、删除留言、查找留言（可按标题，作者，内容查找）</p>
+                            </div>
+                            <div class="bottom">
+                                <span class="l"><span class="layui-badge">2018-12-17</span></span>
+                                <span class="r"> 0人使用&nbsp;&nbsp; 作业币：<span class="layui-badge">45</span></span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="http://47.106.86.207/18_12_17_message/index.php" target="_blank">
+                            <img alt="织金洞留言板" height="168" width="100%" src="http://47.106.86.207/18_12_15_message/1.png" style="display: inline-block;">
+                            <div class="intro">
+                                <h3><i>MySQLi留言板</i>织金洞留言板</h3>
+                                <p>登陆注册、退出登陆、留言列表、添加留言</p>
+                            </div>
+                            <div class="bottom">
+                                <span class="l"><span class="layui-badge">2018-12-17</span></span>
+                                <span class="r"> 0人使用&nbsp;&nbsp; 作业币：<span class="layui-badge">30</span></span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="http://47.106.86.207/18_12_15_message/index.php" target="_blank">
+                            <img alt="织金洞留言板" height="168" width="100%" src="http://47.106.86.207/18_12_15_message/1.png" style="display: inline-block;">
+                            <div class="intro">
+                                <h3><i>PDO留言板</i>织金洞留言板</h3>
+                                <p>登陆注册、退出登陆、留言列表、添加留言</p>
+                            </div>
+                            <div class="bottom">
+                                <span class="l"><span class="layui-badge">2018-12-15</span></span>
+                                <span class="r"> 0人使用&nbsp;&nbsp; 作业币：<span class="layui-badge">30</span></span>
+                            </div>
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a href="http://120.78.162.99/18-10-29/ybwy/index.php" target="_blank">
+                            <img alt="留言板（管理员和普通用户）" height="124" width="100%" src="http://img.php.cn/upload/course/000/000/003/5a5099080616f758.jpg" style="display: inline-block;">
+                            <div class="intro">
+                                <h3><i>PHP+MySQL</i>留言板（管理员和普通用户）</h3>
+                                <p>登录注册、用户管理、留言管理、案例管理</p>
+                            </div>
+                            <div class="bottom">
+                                <span class="l"><span class="layui-badge layui-bg-green">2018-10-29</span></span>
+                                <span class="r"> 1人使用&nbsp;&nbsp; 作业币：<span class="layui-badge">40</span></span>
+                            </div>
+                        </a>
+                    </li>
+                   
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="wrap_box_up">
+            <a href="#">
+                <p>If you correct your mind, the rest of your life will fall into place. - Lao Tzu</p>
+            </a>
+        </div>
+        {include file="public/footer" /}
+
+        <script>
+            $('#category-list').on('click', 'a', function () {
+                $('.resource-class-li-bg a').each(function (k, v) {
+                    console.log(k);
+                    console.log(v);
+                });
+            });
+
+        </script>
+    </body>
+
+</html>

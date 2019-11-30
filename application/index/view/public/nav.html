@@ -1,0 +1,62 @@
+<div class="heloved-header layui-header">
+    <!-- logo start -->
+    <div class="heloved-logo">
+        <img src="__STATIC__/logo.png" alt="期末作业网" />
+        <!--        <div class="heloved-logo-left">
+                </div>
+                <div class="heloved-logo-right">
+                    <img src="__STATIC__/index/images/tel.jpg" alt="服务热线">24小时在线 <span class="heloved-tel">123456788</span>
+                </div>-->
+    </div>
+    <!-- logo end -->
+
+    <!-- nav start -->
+    <ul class="header-nav" id="header-nav">
+
+        <li class='layui-nav-item  {//当URL中cate_id参数为空的时候,默认就是首页高亮显示}
+        {empty name="$Request.param.board_id"}
+        header-nav-this
+        {/empty}'
+            ><a href="{:url('index/index/index')}">首页</a></li>
+
+        {volist name="resource_board" id="board"}
+        <li class='layui-nav-item
+        {//用请求对象从URL中获取当前的board_id参数}
+        {eq name="$board.id" value="$Request.param.board_id"}  
+            header-nav-this
+        {/eq}'><a href="{:url('index/board/index',['board_id'=> $board.id])}">{$board.name}</a></li>
+        {/volist}
+
+        <!-- <li class="layui-nav-item"><a href="{:url('index/index/index')}">首页</a></li>
+        <li class="layui-nav-item"><a href="{:url('index/resource/index')}">综合资源</a></li>
+        <li class="layui-nav-item header-nav-this"><a href="{:url('index/resource/message')}">留言板系统</a></li>
+        <li class="layui-nav-item"><a href="{:url('index/resource/mall')}">商城系统</a></li>
+        <li class="layui-nav-item"><a href="{:url('index/resource/news')}">新闻系统</a></li>
+        <li class="layui-nav-item"><a href="{:url('index/resource/user')}">用户管理系统</a></li>
+        <li class="layui-nav-item"><a href="{:url('index/resource/web')}">WEB前端</a></li> -->
+        <!-- <li class="layui-nav-item"><a href="#">课程中心</a></li> -->
+        <!-- <li class="layui-nav-item"><a href="#">加入我们</a></li>-->
+    </ul>
+
+    <!-- nav end -->
+
+    <!--login and register start -->
+    <!--  <ul class="heloved-user">
+        <li><span class="login" id="btnLogin">登录</span></li>
+        <li><span class="register">注册</span></li>
+    </ul>-->
+    <!--login and register end -->
+
+    <!--user-information-->
+    <div class="heloved-user-info">
+        <span class="dropbtn">云想衣裳花想容</span>
+        <div class="dropdown" style="display: none;">
+            <div class="dropdown-content">
+                <a href="#">菜单1</a>
+                <a href="#">菜单2</a>
+                <a href="#">菜单3</a>
+            </div>
+        </div>
+    </div>
+    <!--user-information-->
+</div>
