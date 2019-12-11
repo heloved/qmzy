@@ -16,7 +16,7 @@ class Board extends Base {
      * @return [type] [description]
      */
     public function index() {
-        // dump(strtotime('2019-01-08'));
+        dump(strtotime('2018-12-21'));
         // dump(strtotime('2018-10-31'));
         
         $b_id = Request::param('board_id');
