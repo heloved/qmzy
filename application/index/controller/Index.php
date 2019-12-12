@@ -16,13 +16,6 @@ class Index extends Base {
      */
     public function index() {
         
-        $typing_max = db('typing')->order('id desc')->value('id');
-        $id = rand(1,$typing_max);
-        
-        $typing = db('typing')->where('id', $id)->value('content');
-
-        $this->assign('typing',$typing?$typing:'All action results from thought, so it is thoughts that matter.-- Sai BaBa');
-        
         $new_resource = Resource::order('create_time desc')->limit(6)->select();
         $this->view->assign('new_resource', $new_resource);
         $hot_resource = Resource::order('create_time desc')->limit(8)->select();
